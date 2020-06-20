@@ -82,6 +82,8 @@ Once the New Question has been submitted, it will be displayed among the Unanswe
 
 Since there is no actual database where this data is maintained, new questions defined by users won't be available when relaunching the app.
 
+Users are able to ask several times the same question, but they won't be able to provide the same two options within a question.
+
 
 ### Leaderboard
 In this section, the user can see a ranking of how all the users are performing in terms of asking and answering questions.
