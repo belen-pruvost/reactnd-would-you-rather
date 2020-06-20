@@ -33,7 +33,7 @@ class App extends Component {
                 <ProtectedRoute path='/' exact component={Dashboard} isAuthenticated={this.props.authenticated}/>
                 <ProtectedRoute path='/question/:id' exact component={connect(mapStateToProps)(UnansweredQuestion)} isAuthenticated={this.props.authenticated}/>
                 <ProtectedRoute path='/question/:id/results' exact component={connect(mapStateToProps)(AnsweredQuestion)} isAuthenticated={this.props.authenticated}/>
-                <ProtectedRoute path='/new' component={NewQuestion} isAuthenticated={this.props.authenticated}/>
+                <ProtectedRoute path='/add' component={NewQuestion} isAuthenticated={this.props.authenticated}/>
                 <ProtectedRoute path='/leaderboard' component={Leaderboard} isAuthenticated={this.props.authenticated}/>
                 <Route path="/login" exact component={withRouter(Login)} />
                 <Route path="/logout" exact component={withRouter(Logout)} />
