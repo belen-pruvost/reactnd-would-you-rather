@@ -81,7 +81,7 @@ class NewQuestion extends Component {
                     <button
                         className='btn submittable'
                         type='submit'
-                        disabled={optionOneText === '' || optionTwoText === '' || optionOneText === optionTwoText}>
+                        disabled={optionOneText.trim() === '' || optionTwoText.trim() === '' || optionOneText.trim() === optionTwoText.trim()}>
                         Submit
                     </button>
                 </form>
