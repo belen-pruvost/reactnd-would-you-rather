@@ -1,100 +1,91 @@
-# Would You Rather Project
+# Would You Rather...? Project
 
-This is the starter code for the final assessment project for Udacity's React & Redux course.
+This is Belén Pruvost's assessment project for the React & Redux module, included in Udacity's React Nanodegree.
 
-The `_DATA.js` file represents a fake database and methods that let you access the data. The only thing you need to edit in the ` _DATA.js` file is the value of `avatarURL`. Each user should have an avatar, so you’ll need to add the path to each user’s avatar.
+It is an app that allows you to browse through questions different users have asked. Each question has a 2 possible options. The user can only answer once to each question, and can submit new questions.
 
-Using the provided starter code, you'll build a React/Redux front end for the application. We recommend using the [Create React App](https://github.com/facebook/create-react-app) to bootstrap the project.
+For already answered questions, information about how each option is performing is displayed.
 
-## Data
+There is also a leaderboard who shows all the users in the app, ordered from the most perfomant to the least performant. Performance is measure by the amount of asked and aswered questions.
 
-There are two types of objects stored in our database:
+## Running the app locally
 
-* Users
-* Questions
+- install all project dependencies with `npm install`
+- start the development server with `npm start`
 
-### Users
+## Sections
 
-Users include:
+### Login
+This section allows a given user to _authenticate_ into the app, by selecting their name from a drop down list.
 
-| Attribute    | Type             | Description           |
-|-----------------|------------------|-------------------         |
-| id                 | String           | The user’s unique identifier |
-| name          | String           | The user’s first name  and last name     |
-| avatarURL  | String           | The path to the image file |
-| questions | Array | A list of ids of the polling questions this user created|
-| answers      | Object         |  The object's keys are the ids of each question this user answered. The value of each key is the answer the user selected. It can be either `'optionOne'` or `'optionTwo'` since each question has two options.
+![login](images/login.png)
 
-### Questions
+It's not a real authentication per se - but it simulates one.
 
-Questions include:
+The list of users displayed on the drop down are read from the API provided on the project.
 
-| Attribute | Type | Description |
-|-----------------|------------------|-------------------|
-| id                  | String | The question’s unique identifier |
-| author        | String | The author’s unique identifier |
-| timestamp | String | The time when the question was created|
-| optionOne | Object | The first voting option|
-| optionTwo | Object | The second voting option|
+If a user is not logged in and tries to browse to a question, they will be redirected to the login page.
 
-### Voting Options
+Once the user has logged in, their name will be displayed on the nav bar, with an option that allows them to Log out.
 
-Voting options are attached to questions. They include:
+### Logout
+This button allows the user to log out of the app.
 
-| Attribute | Type | Description |
-|-----------------|------------------|-------------------|
-| votes             | Array | A list that contains the id of each user who voted for that option|
-| text                | String | The text of the option |
+![logout](images/logout.png)
 
-Your code will talk to the database via 4 methods:
+When selected, the user will be brought back to the login page.
 
-* `_getUsers()`
-* `_getQuestions()`
-* `_saveQuestion(question)`
-* `_saveQuestionAnswer(object)`
 
-1) `_getUsers()` Method
+### Nav Bar
+If the user is logged in, a Nav bar will be displayed at the top. This allows the user to browse around the app.
 
-*Description*: Get all of the existing users from the database.  
-*Return Value*: Object where the key is the user’s id and the value is the user object.
 
-2) `_getQuestions()` Method
+### Home
+This section allows the user to toggle between **Unanswered** and **Answered** questions.
 
-*Description*: Get all of the existing questions from the database.  
-*Return Value*: Object where the key is the question’s id and the value is the question object.
+![home](images/home.png)
 
-3) `_saveQuestion(question)` Method
+Each question shows who was the user that submitted it, when, their avatar, and what are the options they provided.
 
-*Description*: Save the polling question in the database.  
-*Parameters*:  Object that includes the following properties: `author`, `optionOneText`, and `optionTwoText`. More details about these properties:
+![answered](images/answered.png)
 
-| Attribute | Type | Description |
-|-----------------|------------------|-------------------|
-| author | String | The id of the user who posted the question|
-| optionOneText| String | The text of the first option |
-| optionTwoText | String | The text of the second option |
+If there are no answers that the user has answered yet, or if the user has already answered all the available questions, a message indicating so will be displayed.
 
-*Return Value*:  An object that has the following properties: `id`, `author`, `optionOne`, `optionTwo`, `timestamp`. More details about these properties:
+![no-qs](images/no-qs.png)
 
-| Attribute | Type | Description |
-|-----------------|------------------|-------------------|
-| id | String | The id of the question that was posted|
-| author | String | The id of the user who posted the question|
-| optionOne | Object | The object has a text property and a votes property, which stores an array of the ids of the users who voted for that option|
-| optionTwo | Object | The object has a text property and a votes property, which stores an array of the ids of the users who voted for that option|
-|timestamp|String | The time when the question was created|
 
-4) `_saveQuestionAnswer(object)` Method
+#### Answered Question
+If the user selects a question from the answered list, they will be able to see how the options are performing.
 
-*Description*: Save the answer to a particular polling question in the database.
-*Parameters*: Object that contains the following properties: `authedUser`, `qid`, and `answer`. More details about these properties:
+![results](images/results.png)
 
-| Attribute | Type | Description |
-|-----------------|------------------|-------------------|
-| authedUser | String | The id of the user who answered the question|
-| qid | String | The id of the question that was answered|
-| answer | String | The option the user selected. The value should be either `"optionOne"` or `"optionTwo"`|
 
-## Contributing
+The user won't be able to change their answer, but they'll be able to see what was their original response.
 
-This repository is the starter code for *all* Udacity students. Therefore, we most likely will not accept pull requests. For details, check out [CONTRIBUTING.md](https://github.com/udacity/reactnd-project-would-you-rather-starter/blob/master/CONTRIBUTING.md).
+#### Unanswered Question
+If the user selects a question from the unanswered list, they will be able to provide a response.
+
+![respond](images/respond.png)
+
+Once the user has answered, they will be redirected to the Answered Question view, to see how the question is performing.
+
+### New Question
+In this section, the user can create a new poll for themselves and other users to answer.
+
+![new](images/new.png)
+
+If the user provides the same option twice, an error will be displayed.
+
+![same-options](images/same-options.png)
+
+Once the New Question has been submitted, it will be displayed among the Unanswered questions.
+
+Since there is no actual database where this data is maintained, new questions defined by users won't be available when relaunching the app.
+
+
+### Leaderboard
+In this section, the user can see a ranking of how all the users are performing in terms of asking and answering questions.
+
+![leaderboard](images/leaderboard.png)
+
+
