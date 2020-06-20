@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bpruvost0_reactnd-would-you-rather&metric=alert_status)](https://sonarcloud.io/dashboard?id=bpruvost0_reactnd-would-you-rather)
+
 # Would You Rather...? Project
 
 This is Belén Pruvost's assessment project for the React & Redux module, included in Udacity's React Nanodegree.
