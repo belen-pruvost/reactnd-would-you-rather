@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+import LoadingBar from 'react-redux-loading'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import AnsweredQuestion from './AnsweredQuestion'
 import Dashboard from './Dashboard'
-import LoadingBar from 'react-redux-loading'
+import Leaderboard from './Leaderboard'
+import Login from './Login';
+import Logout from './Logout';
 import NewQuestion from './NewQuestion'
+import ProtectedRoute from './ProtectedRoute'
 import Nav from './Nav'
 import UnansweredQuestion from './UnansweredQuestion'
 
@@ -16,28 +20,36 @@ class App extends Component {
   render() {
     return (
       <Router>
-          <Fragment>
-            <LoadingBar />
-            <div className='container'>
-              <Nav />
-              {this.props.loading === true
-                ? null
-                : <div>
-                    <Route path='/' exact component={Dashboard} />
-                    <Route path='/question/:id' exact component={UnansweredQuestion}/>
-                    <Route path='/question/:id/results' exact component={AnsweredQuestion}/>
-                    <Route path='/new' component={NewQuestion} />
-                </div>}
-            </div>
-          </Fragment>
+        <Fragment>
+          <LoadingBar />
+          {this.props.authenticated == null
+            ? null
+            : <Nav authedUser={this.props.loggedInUser} />
+          }
+          <div className='container'>
+            {this.props.loading === true
+              ? null
+              : <div>
+                <ProtectedRoute path='/' exact component={Dashboard} isAuthenticated={this.props.authenticated}/>
+                <ProtectedRoute path='/question/:id' exact component={connect(mapStateToProps)(UnansweredQuestion)} isAuthenticated={this.props.authenticated}/>
+                <ProtectedRoute path='/question/:id/results' exact component={connect(mapStateToProps)(AnsweredQuestion)} isAuthenticated={this.props.authenticated}/>
+                <ProtectedRoute path='/new' component={NewQuestion} isAuthenticated={this.props.authenticated}/>
+                <ProtectedRoute path='/leaderboard' component={Leaderboard} isAuthenticated={this.props.authenticated}/>
+                <Route path="/login" exact component={withRouter(Login)} />
+                <Route path="/logout" exact component={withRouter(Logout)} />
+              </div>}
+          </div>
+        </Fragment>
       </Router>
     )
   }
 }
 
-function mapStateToProps ({ authedUser }) {
+function mapStateToProps({ login }) {
   return {
-    loading: authedUser === null
+    loading: false,
+    loggedInUser: login.loggedInUser,
+    authenticated: login.authenticated
   }
 }
 

@@ -1,13 +1,10 @@
 import { getInitialData } from '../utils/api'
 import { receiveUsers } from '../actions/users'
 import { receiveQuestions } from '../actions/questions'
-import { setAuthedUser } from '../actions/authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { saveQuestion, saveQuestionAnswer } from '../utils/api';
 import { addUserQuestion, addUserQuestionAnswer } from './users';
 import { addQuestion, addQuestionAnswer} from './questions';
-
-const AUTHED_ID = 'tylermcginnis'
 
 export function handleInitialData () {
     return (dispatch) => {
@@ -16,7 +13,6 @@ export function handleInitialData () {
             .then(({ users, questions} ) => {
                 dispatch(receiveUsers(users))
                 dispatch(receiveQuestions(questions))
-                dispatch(setAuthedUser(AUTHED_ID))
                 dispatch(hideLoading())
             })
     }
@@ -26,7 +22,8 @@ export function handleAddQuestionAnswer (questionId, selectedOption) {
     return (dispatch, getState) => {
         dispatch(showLoading());
 
-        const { authedUser } = getState();
+        const { login } = getState();
+        const authedUser = login.loggedInUser.id;
 
         saveQuestionAnswer({
             authedUser,
@@ -42,14 +39,13 @@ export function handleAddQuestionAnswer (questionId, selectedOption) {
 
 export function handleAddQuestion (optionOneText, optionTwoText) {
     return (dispatch, getState) => {
-        const { authedUser } = getState();
-
-        dispatch(showLoading());
+        const {login} = getState();
+        const author = login.loggedInUser.id;
 
         saveQuestion({
             optionOneText,
             optionTwoText,
-            author: authedUser,
+            author
         })
         .then((question) => {
             dispatch(addUserQuestion(question));

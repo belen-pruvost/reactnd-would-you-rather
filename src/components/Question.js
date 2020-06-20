@@ -8,7 +8,9 @@ class Question extends Component {
         const { question, questionsToShow } = this.props
 
         if (question === null) {
-            return <p>This Question doesn't exist</p>
+            return <div className='no-question'>
+                <p>This Question doesn't exist</p>
+            </div>
         }
 
         const {
@@ -55,8 +57,10 @@ class Question extends Component {
     }
 }
 
-function mapStateToProps({ authedUser, users, questions }, { id, questionsToShow }) {
+function mapStateToProps({ login, users, questions }, { id, questionsToShow }) {
     const question = questions[id]
+
+    const authedUser = login.loggedInUser.id
 
     return {
         authedUser,

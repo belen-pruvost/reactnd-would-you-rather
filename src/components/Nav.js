@@ -1,10 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-export default function Nav() {
+const Nav = (authedUser) => {
+    console.log(authedUser)
     return (
         <nav className='nav'>
-            <ul>
+            <ul className='nav-float-left'>
                 <li>
                     <NavLink to='/' exact activeClassName='active'>
                         Home
@@ -15,7 +16,22 @@ export default function Nav() {
                         New Question
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink to='/leaderboard' exact activeClassName='active'>
+                        Leaderboard
+                    </NavLink>
+                </li>
             </ul>
+            <div className='nav-float-right'>
+                Hello, {authedUser.authedUser.name}
+                <NavLink to="/logout">
+                    <button>
+                        Logout
+                        </button>
+                </NavLink>
+            </div>
         </nav>
     )
-}
+};
+
+export default Nav;

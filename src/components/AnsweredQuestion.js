@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from "react-router-dom";
 import { formatDate, formatQuestion } from '../utils/helpers'
 import { handleAddQuestionAnswer } from '../actions/shared';
 
@@ -36,11 +35,13 @@ class AnsweredQuestion extends Component {
         const { question, authedUser } = this.props
 
         if (question === null) {
-            return <p>This Question doesn't exist</p>
+            return <div className='no-question'>
+                <p>This Question doesn't exist</p>
+            </div>
         }
 
         const {
-            name, avatar, timestamp, optionOne, optionTwo, id, hasVoted
+            name, avatar, timestamp, optionOne, optionTwo
         } = question
 
         const optionOneVotes = optionOne.votes.length
@@ -54,19 +55,20 @@ class AnsweredQuestion extends Component {
         let optionTwoWidth = Math.round((optionTwoVotes / totalVotes) * 100);
 
         return (
-            <div className='question'>
-                <img
-                    src={avatar}
-                    alt={`Avatar of ${name}`}
-                    className='avatar'
-                />
-                <div className='question-info'>
-                    <div className='header'>{name} asked {formatDate(timestamp)}</div>
-                    <div className='results-header'>Results:</div>
-                    <div className={`card results 
-                        ${(authedUserAnswer === 'optionOne') 
-                            ? "answer" 
-                            : ""}`}>
+            <div className='leaders'>
+                <div className='question'>
+                    <img
+                        src={avatar}
+                        alt={`Avatar of ${name}`}
+                        className='avatar'
+                    />
+                    <div className='question-info'>
+                        <div className='header'>{name} asked {formatDate(timestamp)}</div>
+                        <div className='results-header'>Results:</div>
+                        <div className={`card results 
+                        ${(authedUserAnswer === 'optionOne')
+                                ? "answer"
+                                : ""}`}>
                             Would you rather {question.optionOne.text}?
                             <div className="progress m-progress--sm">
                                 <div className="progress-bar m--bg-success"
@@ -77,13 +79,13 @@ class AnsweredQuestion extends Component {
                                 <span>
                                     {optionOneVotes} out of {totalVotes} votes. ({optionOneWidth}%)
                                 </span>
-                        </div>
+                            </div>
 
-                    </div>
-                    <div className={`card results 
-                        ${(authedUserAnswer === 'optionTwo') 
-                            ? "answer" 
-                            : ""}`}>
+                        </div>
+                        <div className={`card results 
+                        ${(authedUserAnswer === 'optionTwo')
+                                ? "answer"
+                                : ""}`}>
                             Would you rather {question.optionTwo.text}?
                             <div className="progress m-progress--sm">
                                 <div className="progress-bar m--bg-success"
@@ -95,23 +97,25 @@ class AnsweredQuestion extends Component {
                                     {optionTwoVotes} out of {totalVotes} votes. ({optionTwoWidth}%)
                                 </span>
                             </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         )
     }
 }
 
-function mapStateToProps({ authedUser, questions, users }, props) {
+function mapStateToProps({ login, questions, users }, props) {
     const { id } = props.match.params
 
     const question = questions[id]
 
     return {
         question: question
-            ? formatQuestion(question, users[question.author], authedUser)
+            ? formatQuestion(question, users[question.author], login.loggedInUser.id)
             : null,
-        authedUser
+        authedUser: login.loggedInUser.id
     }
 }
 
