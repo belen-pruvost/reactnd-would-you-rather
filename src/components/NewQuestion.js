@@ -70,9 +70,11 @@ class NewQuestion extends Component {
                         className='textarea'
                     />
 
-                    {optionOneText !== '' && optionOneText === optionTwoText && (
+                    {(optionOneText.trim() === '' 
+                        || optionTwoText.trim() === '' 
+                        || optionOneText.trim() === optionTwoText.trim()) && (
                         <h3 className='error'>
-                            Option One and Option Two need to be different
+                            Option One and Option Two need to have a value, and they need to be different
                         </h3>
                     )}
 

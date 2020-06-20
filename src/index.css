@@ -17,7 +17,7 @@ a {
 }
 
 .options {
-  height: 30px;
+  min-height: 30px;
   font-size: 18px;
 }
 
@@ -111,6 +111,7 @@ li {
   margin-left:50px;
   display: flex;
   flex-direction: column;
+  word-break: break-all;
 }
 
 /* Hacky but less typing in the video */

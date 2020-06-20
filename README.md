@@ -74,9 +74,9 @@ In this section, the user can create a new poll for themselves and other users t
 
 ![new](images/new.png)
 
-If the user provides the same option twice, an error will be displayed.
+If the user provides the same option twice, an error will be displayed. Spaces are not a valid option either.
 
-![same-options](images/same-options.png)
+![error](images/error.png)
 
 Once the New Question has been submitted, it will be displayed among the Unanswered questions.
 
@@ -87,5 +87,3 @@ Since there is no actual database where this data is maintained, new questions d
 In this section, the user can see a ranking of how all the users are performing in terms of asking and answering questions.
 
 ![leaderboard](images/leaderboard.png)
-
-
