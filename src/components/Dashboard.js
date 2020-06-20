@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Question from './Question'
-
+import { getZeroAnswered, getZeroUnanswered } from '../selectors/index'
+  
 class Dashboard extends Component {
     state = {
         'questionsToShow': 'unanswered',
@@ -17,10 +18,6 @@ class Dashboard extends Component {
 
     render() {
         const { questionsToShow, activeTab } = this.state;
-        console.log("----------------------")
-        console.log(this.props.zeroAnswered)
-        console.log(this.props.zeroUnanswered)
-        console.log("----------------------")
 
         return (
             <div>
@@ -71,22 +68,11 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps({ login, questions, users }) {
-    const authedUser = login.loggedInUser.id
-
-    let zeroAnswered, zeroUnanswered, total, user
-
-    total = Object.keys(questions).length
-    user = users[authedUser]
-
-    zeroAnswered = Object.keys(user.answers).length === 0
-    zeroUnanswered = Object.keys(user.answers).length === total
-
-
     return {
         questionIds: Object.keys(questions)
             .sort((a, b) => questions[b].timestamp - questions[a].timestamp),
-        zeroAnswered,
-        zeroUnanswered
+        zeroAnswered: getZeroAnswered({login, users, questions}),
+        zeroUnanswered: getZeroUnanswered({login, users, questions})
     }
 }
 

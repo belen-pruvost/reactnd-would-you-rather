@@ -2,7 +2,6 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Nav = (authedUser) => {
-    console.log(authedUser)
     return (
         <nav className='nav'>
             <ul className='nav-float-left'>
